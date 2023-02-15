@@ -1,10 +1,10 @@
 <p align="center"><a href="#"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center"> 
-## <h1><a>Facturea.ar - API</a></h1>
-## <h1><a>Facturea.ar - WEB</a></h1>
+<h1><a>Facturea.ar - API</a></h1>
+<h1><a>Facturea.ar - WEB</a></h1>
  
-- API para generar facturas electronicas bajo el remen de AFIP (modo Homologacion)
+## FACTUREA es una aplicacion web para administrar PyMES y poder generar facturas electronicas, se basa en un proyecto anterior de similaries caracteristicas y las mismas en esta segunda version son optimizadas hasta inclusive se han agregado otras funcionalidades. Este proyecto aun no esta concluido, seguir trabajando en nuestra version BETA (Febrero 2023) 
 </p>
 
 <hr> 
@@ -43,14 +43,18 @@
 
 Se consumio la Libreria SDK Afip, para poder consumir los Web serivices y SOAP de Afip, aun se encuentra en ambiente testing alojada en un VPS de Amazon Web Serices.
 
-- Sistema de Logueo con jetStream.
 - Autenticacion y protenccion de rutas creando un Token con SANCTUM
 - Remover Tokens existentes
-- Frotend y estilos otorgados con bootstraps 4.
 - Ruteo de los endpoints en routes/api.php con rutas indivuales y tambien agrupando el CRUD en una sola
-- Uso de servidor LARAGON y gestor de DB MySql MS. (en Local)
+- Uso gestor de DB MySql MS. (en Local)
 - Recursos utilizados e intalados en AWS para deploy -Server Apache, SO Linux Ubuntu, Intalacion de un proyecto Laravel desde composer, Git ini. ".
  
+ ## SOBRE EL FRONT END DE ESTE PROYECTO
+ - Frotend y estilos otorgados con bootstraps 4. 
+ - Sistema de Logueo con jetStream.
+ - Consultas mediente ajax, funcionalidades y eventos mediante JQuery.
+ 
+ - Ambos proyectos corren dentro de contenedores Docker.
  
 
 ## cesars.pro@gmail.com
