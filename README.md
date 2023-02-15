@@ -59,4 +59,5 @@ Se consumio la Libreria SDK Afip, para poder consumir los Web serivices y SOAP d
 
 ## cesars.pro@gmail.com
 ## Linkedin: https://www.linkedin.com/in/cesar-sanchez-dev/
+## Para ver y descargar mi CV: <a href=" https://shorten.world/qxnxs"> Clic Aca!</a>
 
