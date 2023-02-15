@@ -36,10 +36,10 @@
 <p align="center">
      <img src="https://i.postimg.cc/zfjQGs4r/Whats-App-Image-2023-02-14-at-6-01-33-PM.jpg" border="0"> 
     
-</p> 
+</p>
+ 
 
-<hr>
-## SOBRE ESTE PROYECTO "API REST FULL CON LARAVEL" 
+## SOBRE ESTE PROYECTO API REST FULL CON LARAVEL 
 
 Se consumio la Libreria SDK Afip, para poder consumir los Web serivices y SOAP de Afip, aun se encuentra en ambiente testing alojada en un VPS de Amazon Web Serices.
 
