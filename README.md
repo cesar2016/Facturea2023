@@ -1,8 +1,9 @@
 <p align="center"><a href="#"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center"> 
-<h1><a>Facturea.ar - API</a></h1>
-## URL: http://3.21.240.248/
+## <h1><a>Facturea.ar - API</a></h1>
+## <h1><a>Facturea.ar - WEB</a></h1>
+ 
 - API para generar facturas electronicas bajo el remen de AFIP (modo Homologacion)
 </p>
 
@@ -25,9 +26,17 @@
 
 <hr> 
 <p align="center">
-    <a href="https://ibb.co/7nVP8Fp"><img src="https://i.ibb.co/Lx6mbfg/Whats-App-Image-2022-01-27-at-3-45-28-PM.jpg" alt="Whats-App-Image-2022-01-27-at-3-45-28-PM" border="0"></a>
+     <img src="https://i.postimg.cc/tgj0TtTh/Whats-App-Image-2023-02-14-at-5-56-54-PM.jpg" border="0"> 
     
-</p>   
+</p>  
+<p align="center">
+     <img src="https://i.postimg.cc/SsgHDBGr/Whats-App-Image-2023-02-14-at-5-58-42-PM.jpg" border="0"> 
+    
+</p> 
+<p align="center">
+     <img src="https://i.postimg.cc/zfjQGs4r/Whats-App-Image-2023-02-14-at-6-01-33-PM.jpg" border="0"> 
+    
+</p> 
 
 <hr>
 ## SOBRE ESTE PROYECTO "API REST FULL CON LARAVEL" 
@@ -46,3 +55,4 @@ Se consumio la Libreria SDK Afip, para poder consumir los Web serivices y SOAP d
 
 ## cesars.pro@gmail.com
 ## Linkedin: https://www.linkedin.com/in/cesar-sanchez-dev/
+
