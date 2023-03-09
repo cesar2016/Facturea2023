@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use PDF;
 
-class ReciveController extends Controller
+class Client_acountController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +17,27 @@ class ReciveController extends Controller
         $this->client = $client;
 
     }
-    public function index()
+    public function index(Request $request, $id)
     {
+
+        $token = $request->cookie('facturea_token');
+
+        $response_payments = $this->client->request('GET','payments/'.$id, [
+        'headers' => [ 'Accept' => 'application/json', 'Authorization' => 'Bearer ' . $token ],
+        //'body' => json_encode($data),
+        ]);
+
+        $response_products = $this->client->request('GET','products', [
+            'headers' => [ 'Accept' => 'application/json', 'Authorization' => 'Bearer ' . $token ],
+            //'body' => json_encode($data),
+            ]);
+
+        $payments = json_decode($response_payments->getBody(), true);
+        $products = json_decode($response_products->getBody(), true);
+
+        return view('client_acount')
+        ->with('products',$products)
+        ->with( 'payments', $payments);
 
 
 
@@ -32,7 +50,7 @@ class ReciveController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -43,34 +61,7 @@ class ReciveController extends Controller
      */
     public function store(Request $request)
     {
-        $img_source = public_path('my/images/logo.png');
-        $imgbinary = fread(fopen($img_source, "r"), filesize($img_source));
-        $img_base64 = base64_encode($imgbinary);
-
-        $data = $request->all();
-        $data['img'] = $img_base64; // Agrego al img al array
-
-        $type_sale = [
-
-            1 => 'CONTADO',
-            2 => 'CREDITO'
-        ];
-
-        $data['type_sale'] = $type_sale[$request->type_sale]; // Agregamos el tipo de vta al array de datos
-
-        is_null($data['delivery']) ? $data['delivery'] = 0 : '';
-        is_null($data['countdown']) ? $data['countdown'] = 0 : $data['countdown'] = $data['total'] * $data['countdown']  / 100;
-
-        //return $data;
-
-        view()->share('PDFs.recives',$data);
-
-        $pdf = PDF::loadView('PDFs.recives', ['data' => $data], ['img', $img_base64])->setOptions(['defaultFont' => 'sans-serif']);
-        $pdf->setPaper('A4','portrait');
-
-        return $pdf->stream();
-
-
+        //
     }
 
     /**
@@ -104,7 +95,7 @@ class ReciveController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**

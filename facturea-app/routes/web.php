@@ -3,6 +3,7 @@
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Brand_categoryController;
+use App\Http\Controllers\Client_acountController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
@@ -56,6 +57,9 @@ Route::get('/products', [ProductController::class, 'index'])->name('products');
 
 Route::get('/sale', [SaleController::class, 'index'])->name('sale');
 Route::post('/recive', [ReciveController::class, 'store'])->name('recive');
+
+Route::get('/client_acount/{id}', [Client_acountController::class, 'index'])->name('client_acount');
+
 
 
 

@@ -43,7 +43,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header mb-3">
                         <a id="btn-new-brandProducts" class="btn btn-app bg-primary">
                             <i class="fas fa-users"></i> Nuevo Marca
                         </a>
@@ -148,7 +148,7 @@
             <!-- /.col -->
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header mb-3">
                         <a id="btn-new-category" class="btn btn-app bg-primary">
                             <i class="fas fa-users"></i> Nueva Categoria
                         </a>
@@ -232,6 +232,9 @@
 @section('js')
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
 
 <!-- Toastr.js Después -->
@@ -244,6 +247,21 @@
     <script src="{{ asset('my/js/brandProducts.js') }}"></script>
     <script src="{{ asset('my/js/categories.js') }}"></script>
 
+    <script>
+        $(document).ready(function() {
+            //$('#products').DataTable();
+            $('#category').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                }
+            });
+            $('#brandProducts').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                }
+            });
 
+        });
+    </script>
 
 @stop

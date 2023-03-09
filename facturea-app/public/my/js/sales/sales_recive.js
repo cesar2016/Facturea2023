@@ -25,6 +25,8 @@ $(function () {
 
                     <input type="number" class="form-control cant" id="cant-`+contador+`" name="cant-`+contador+`"
                         value="1">
+                    <input hidden type="text" class="form-control product_id" id="product_id-`+contador+`" name="product_id-`+contador+`" >
+
                 </div>
 
                 <div class="form-group col-md-6">
@@ -165,7 +167,7 @@ $(function () {
                 count += parseInt( $("#sub_total-"+value).val() )
             });
 
-            console.log(count_input)
+            //console.log(count_input)
 
             if (isNaN(count)) {
                 $('#total').val('Calculando ...')
@@ -188,11 +190,9 @@ $(function () {
 
         }
 
-
         $(document).on('click', '.detail', function() {
             // Obtener el nombre del input
             var selection = $(this).attr('name');
-
 
             $.ajax({
                 type: "GET",
@@ -213,6 +213,7 @@ $(function () {
                                 var label = ui.item.label.split(" - ");
                                 var id_in = selection.split("-");
                                 $(this).val(label[1]);
+
 
                                 $("#product_id-"+id_in[1]).val(label[0])
                                 $("#price_unit-"+id_in[1]).val(label[3])
@@ -251,13 +252,42 @@ $(function () {
     function redirect(){
         window.open('/sale')
     }
+
+
+    // # NUEVO INSERT --
     $(document).on('click','#btn_genenerate_recive',function(e){
 
-        redirect();
+        e.preventDefault();
 
-        $('#form-recive').submit(function (e) {
+        const data_recive = $("#form-dates-recive").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: URI_API+'sales',
+            data: data_recive,
+            headers: header,
+            dataType: "JSON",
+            success: function(data)
+            {
+
+                console.log(data)
+
+            },
+
+            error:function (response){
+                // $.each(response.responseJSON.errors,function(field_name, error){
+                //   $(document).find('[name='+field_name+']').after('<small class="text-sm text-danger">' +error+ '</small>')
+                // })
+            }
+
+        }).done(function(){
+
+            redirect();
+
+            $('#form-dates-recive').submit();
 
         });
+
     })
 
 

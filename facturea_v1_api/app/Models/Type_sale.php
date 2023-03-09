@@ -11,6 +11,7 @@ class Type_sale extends Model
     protected $fillable = [
 
         'name',
+        'code',
         'status',
 
     ];

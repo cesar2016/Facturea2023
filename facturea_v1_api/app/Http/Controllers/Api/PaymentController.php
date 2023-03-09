@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -44,16 +45,41 @@ class PaymentController extends Controller
         return $payment;
     }
 
+    public function store_pay_account(Request $request)
+    {
+
+        $payment = new Payment();
+        $payment->client_id = $request->client_id;
+        $payment->date_payment = $request->date_pay;
+        $payment->payment = number_format($request->importe, 2, '.', '');
+        $payment->save();
+
+        return $payment;
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function show(Payment $payment)
+    public function show($id)
     {
-        $payment = Payment::with(['Client'])->findOrFail($payment->id);
-        return $payment;
+        $payments = Payment::where('client_id',$id)
+        ->with(['Client'])
+        ->get();
+
+        if($payments->count() > 0){
+
+            return response()->json($payments->toArray());
+
+        }else{
+
+            return response()->json(['msg'=>'error']);
+
+        }
+
+
 
     }
 
@@ -93,5 +119,22 @@ class PaymentController extends Controller
     {
         $payment->delete();
         return $payment;
+    }
+
+    public function calculator_totals($client_id)
+    {
+
+        //return $client_id;
+        $debt = DB::table('payments')->where('client_id', $client_id)->sum('debt');
+        $payments = DB::table('payments')->where('client_id', $client_id)->sum('payment');
+        $countdown = DB::table('payments')->where('client_id', $client_id)->sum('countdown');
+
+        $plus = $countdown + $payments;
+
+        $total_debt = $debt - $plus;
+
+        return response()->json(['total_debt' => $total_debt]);
+
+
     }
 }

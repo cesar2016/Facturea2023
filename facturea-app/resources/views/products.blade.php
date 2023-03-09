@@ -36,6 +36,7 @@
             <div class="card-header">
                 <h3 class="card-title"> <i class=" fa fa-users"></i> <span id="text-head-form"></span> </h3>
             </div>
+
             <input hidden type="text" name="idproduct" id="idproduct" value="1">
             <form id="form-new-product" name="form-new-product" action="">
             <div class="card-body">
@@ -95,10 +96,6 @@
 
         <hr>
     </div>
-
-
-
-
 
 
     <table id="products" class="table table-striped table-bordered" style="width:100%">

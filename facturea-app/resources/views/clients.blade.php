@@ -102,6 +102,10 @@
                                 data-target="#updateModal">
                                 <i class='fa fa-trash text-danger '></i>
                             </button>
+                            <a href="{{url('client_acount',$client['id'])}}" class="btn" role="button" aria-pressed="true">
+                                <i class='fa fa-eye '></i>
+                            </a>
+
                         </td>
                     </tr>
                 @endforeach

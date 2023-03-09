@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\SaleController;
 use App\Http\Controllers\Api\TypeSaleController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CurrentAccountController;
 use App\Models\BrandProduct;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Http\Request;
@@ -88,6 +89,8 @@ Route::post('sales',[SaleController::class, 'store'])->name('api.v1.sales.store'
 Route::get('sales/{sale}',[SaleController::class, 'show'])->name('api.v1.sales.show');
 Route::put('sales/{sale}',[SaleController::class, 'update'])->name('api.v1.sales.update');
 Route::delete('sales/{sale}',[SaleController::class, 'destroy'])->name('api.v1.sales.delete');
+Route::get('show_for_id/{sale}',[SaleController::class, 'show_for_id'])->name('api.v1.sales.show_for_id');
+
 
 // # PAYMENTS
 Route::get('payments',[PaymentController::class, 'index'])->name('api.v1.payments.index');
@@ -95,6 +98,10 @@ Route::post('payments',[PaymentController::class, 'store'])->name('api.v1.paymen
 Route::get('payments/{payment}',[PaymentController::class, 'show'])->name('api.v1.payments.show');
 Route::put('payments/{payment}',[PaymentController::class, 'update'])->name('api.v1.payments.update');
 Route::delete('payments/{payment}',[PaymentController::class, 'destroy'])->name('api.v1.payments.delete');
+Route::get('calculator_totals/{payment}',[PaymentController::class, 'calculator_totals'])->name('api.v1.payments.calculator_totals');
+Route::post('store_pay_account',[PaymentController::class, 'store_pay_account'])->name('api.v1.store_pay_account.store');
+
+
 
 // # TYPE SALES
 Route::get('typeSales',[TypeSaleController::class, 'index'])->name('api.v1.typeSales.index');
@@ -102,6 +109,8 @@ Route::post('typeSales',[TypeSaleController::class, 'store'])->name('api.v1.type
 Route::get('typeSales/{type_sale}',[TypeSaleController::class, 'show'])->name('api.v1.typeSales.show');
 Route::put('typeSales/{type_sale}',[TypeSaleController::class, 'update'])->name('api.v1.typeSales.update');
 Route::delete('typeSales/{type_sale}',[TypeSaleController::class, 'destroy'])->name('api.v1.typeSales.delete');
+
+
 
 
 });

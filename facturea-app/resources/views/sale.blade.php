@@ -74,12 +74,12 @@
                             aria-labelledby="custom-tabs-five-overlay-tab">
                             <div class="overlay-wrapper">
 
-                                <form action="{{ route('recive') }}" method="POST">
+                                <form action="{{ route('recive') }}" method="POST" id="form-dates-recive">
                                     @csrf
                                     <div class="form-row">
                                         <div class="form-group col-md-2">
                                             <label for="inputEmail4">Fecha</label>
-                                            <input type="date" class="form-control" value="<?php echo date('Y-m-d'); ?>"
+                                            <input type="datetime-local" class="form-control" value="<?php echo date('Y-m-d h:m:s'); ?>"
                                                 name="date_sale" id="date_sale" placeholder="Fecha. Cpra.">
                                         </div>
                                         <div class="form-group col-md-7">

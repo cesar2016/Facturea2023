@@ -17,15 +17,13 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('client_id')->constrained();
-            $table->foreignId('sale_id')->constrained();
 
             $table->string('identificator_sale');
             $table->integer('debt');
             $table->integer('payment');
-            $table->integer('debt_positive');
+            $table->integer('countdown');
             $table->dateTime('date_payment');
             $table->string('status');
-
 
             $table->timestamps();
         });

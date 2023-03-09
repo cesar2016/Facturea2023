@@ -12,11 +12,10 @@ class Payment extends Model
     protected $fillable = [
 
         'client_id',
-        'sale_id',
         'identificator_sale',
         'debt',
         'payment',
-        'debt_positive',
+        'countdown',
         'data_payment',
         'status',
 
