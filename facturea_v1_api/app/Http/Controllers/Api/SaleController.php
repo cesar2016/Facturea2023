@@ -37,7 +37,7 @@ class SaleController extends Controller
 
 
        // Otenemos el maximo ID para generar en indentif de venta;
-       $max_value = Sale::max('indentificator_sale');
+       $max_value = Sale::max('identificator_sale');
        $max_value ++;
 
        $total_buy = 0;
@@ -51,7 +51,7 @@ class SaleController extends Controller
             //echo $request->$product_id;
 
             $sale = new Sale();
-            $sale->indentificator_sale = $max_value;
+            $sale->identificator_sale = $max_value;
             $sale->date_sale = $request->date_sale;
             $sale->type_sale_id = $request->type_sale;
             $sale->client_id = $request->client_id;
@@ -93,19 +93,16 @@ class SaleController extends Controller
      */
 
     // # Busqueda por ID de Sale
-    public function show(Sale $sale)
+    public function show($identificator_sale)
     {
 
-        //return $sale;
-        //echo $sale->id;
-        $sales = Sale::with(['Client', 'Product'])->where('indentificator_sale',$sale->id)->get();
+        $sales = Sale::with(['Client', 'Product'])->where('identificator_sale', $identificator_sale)->get();
         return $sales;
 
     }
 
     public function show_for_id(Sale $sale)
     {
-
 
         $sales = Sale::with(['Client', 'Product'])->where('id',$sale->id)->get();
         return $sales;
@@ -123,7 +120,23 @@ class SaleController extends Controller
      */
     public function update(Request $request, $id_sale)
     {
-        //return $request;
+
+        $saleStock = Sale::find($id_sale);
+
+        if($request->cuantity > $saleStock->cuantity){
+
+            //return 'Disminuir Stock ';
+            $this->updateStock_for_update_item_Sale($request->product_id, $request->cuantity - $saleStock->cuantity, 'sustract');
+
+        }
+
+        if($request->cuantity < $saleStock->cuantity){
+
+            //return 'Incrementar Stock ';
+            $this->updateStock_for_update_item_Sale($request->product_id, $saleStock->cuantity - $request->cuantity, 'plus');
+
+        }
+
 
         $request->validate([
 
@@ -153,24 +166,59 @@ class SaleController extends Controller
      * @param  \App\Models\Sale  $sale
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sale $sale)
+    public function destroy($sale)
     {
-        $sale->delete();
-        return $sale;
+
+        $item = Sale::find($sale);
+        $this->updateStock_for_delete($item->product_id, $item->cuantity);
+
+        Sale::destroy($sale);
+
+        DB::table('payments')
+            ->where('identificator_sale', $item->identificator_sale)
+            ->delete();
+
+        $itemCount = Sale::where('identificator_sale', $item->identificator_sale)->count();
+
+        return response()->json([
+                                    'itemCount' => $itemCount,
+                                    'identificator_sale' => $item->identificator_sale
+                                ]);
     }
 
+
     // ## Metodo para controlar Stock
+    public function updateStock_for_delete($product_id, $cant)
+    {
+        Product::where('id', $product_id)->update(['stock' => DB::raw('stock +'.$cant)]);
+
+    }
+
+    // ## Metodo para controlar Stock cuando se hace una venta
     public function updateStock($product_id, $cant)
     {
         Product::where('id', $product_id)->update(['stock' => DB::raw('stock -'.$cant)]);
     }
 
+
+
+    // ## Metodo para modif el Stock cuando se uptdetea algun item de una compra y/o compra
+    public function updateStock_for_update_item_Sale($product_id, $cant, $action)
+    {
+
+        if($action == 'sustract'){
+
+            Product::where('id', $product_id)->update(['stock' => DB::raw('stock -'.$cant)]);
+        }
+        if($action == 'plus'){
+
+            Product::where('id', $product_id)->update(['stock' => DB::raw('stock +'.$cant)]);
+        }
+    }
+
     // ## Metodo para controlar los pagos
     public function insert_payments($client_id, $max_value, $delivery, $total_buy, $countdown, $type_sale, $date_sale)
     {
-        // $totalDebt = Payment::sum('debt');
-        // $totalPayment = Payment::sum('payment');
-
 
         if ($type_sale == 1) { // Venta de contado type_sale = 1
 

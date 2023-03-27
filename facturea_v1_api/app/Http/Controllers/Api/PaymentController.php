@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
+use App\Models\Product;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -105,6 +107,8 @@ class PaymentController extends Controller
 
         ]);
 
+        $this->updateStock( $request->product_id, $request->cuantity );
+
         $payment->update($request->all());
         return $payment;
     }
@@ -115,10 +119,23 @@ class PaymentController extends Controller
      * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Payment $payment)
+    public function destroy($identificator_sale)
     {
-        $payment->delete();
-        return $payment;
+
+            $this->back_stock($identificator_sale);
+
+            DB::table('payments')
+            ->where('identificator_sale', $identificator_sale)
+            ->delete();
+
+            return response()->json(['message' => 'La venta se ha eliminados exitosamente.']);
+    }
+
+    public function destroy_pay($id)
+    {
+
+            Payment::destroy($id);
+            return response()->json(['message' => 'La venta se ha eliminados exitosamente.' + $id]);
     }
 
     public function calculator_totals($client_id)
@@ -135,6 +152,30 @@ class PaymentController extends Controller
 
         return response()->json(['total_debt' => $total_debt]);
 
+
+    }
+
+    // ## Metodo para controlar Stock
+    public function updateStock($product_id, $cant)
+    {
+        Product::where('id', $product_id)->update(['stock' => DB::raw('stock -'.$cant)]);
+    }
+
+    // # Metodo para Devolver Stock cuando se elimina una compra completa
+    // Actualiza el Stock y tambien elimina los items de la compra
+    public function back_stock($identificator_sale){
+
+        $saleStocks = Sale::where('identificator_sale',$identificator_sale)->get();
+
+        foreach ($saleStocks as $saleStock) {
+
+            Product::where('id', $saleStock->product_id)->update(['stock' => DB::raw('stock + '.$saleStock->cuantity)]);
+
+            DB::table('sales')
+            ->where('identificator_sale', $identificator_sale)
+            ->delete();
+
+        }
 
     }
 }

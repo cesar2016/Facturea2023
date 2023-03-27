@@ -92,14 +92,11 @@ $(function () {
                             <td> - </td>
                             <td> `+formatDate(data.date_payment)+` </td>
                             <td>
-                            <button id='btn_update' value="`+data.id+`" class='btn btn-sm' type="button" data-toggle="modal"
-                                    data-target="#updateModal">
-                                    <i class='fa fa-file-invoice'> </i>
-                                </button>
+
                                 <button id='btn_delete' value="`+data.id+`" class='btn btn-sm' type="button" data-toggle="modal"
                                     data-target="#updateModal">
                                     <i class='fa fa-trash text-danger '></i>
-                            </button>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -149,7 +146,7 @@ $(function () {
                    //console.log( value );
                     $('#buy').append(
                         `
-                        <tr>
+                        <tr id='item`+value.id+`' >
                             <td> `+value.date_sale+` </td>
                             <td> `+value.cuantity+`  </td>
                             <td> `+value.product.name+` </td>
@@ -160,7 +157,7 @@ $(function () {
                                     data-target="#updateModal">
                                     <i class='fa fa-pen text-default '></i>
                                 </button>
-                                <button id='btn_delete' value="`+value.id+`" class='btn btn-sm' type="button" data-toggle="modal"
+                                <button id='btn_delete_item' value="`+value.id+`" class='btn btn-sm' type="button" data-toggle="modal"
                                     data-target="#updateModal">
                                     <i class='fa fa-trash text-danger '></i>
                                 </button>
@@ -198,15 +195,8 @@ $(function () {
 
     $('#capa-form-update').hide();
     function removeDollarSign(number) { // Function para eliminar el signo de $
-        return Number(number.replace('$', ''));
-    }
+        return Number(number.replace('$', ''));   }
 
-
-
-    $(document).on('click','#btn-form-update-detail',function(e){
-
-
-    });
 
     $(document).on('click','#btn_update',function(e){
 
@@ -218,6 +208,8 @@ $(function () {
         $('#capa-form-update').toggle(1000);
 
         var idSale = $(this).val();
+
+        console.log(idSale)
 
         $.ajax({
             type: "GET",
@@ -276,6 +268,9 @@ $(function () {
                 $('#buy').empty();
                 $('#buy').toggle(1000);
 
+                $('#form-update-sale').trigger("reset");
+                $('#capa-form-update').toggle(1000);
+
                 view_buy(idSale)
 
             },
@@ -296,7 +291,9 @@ $(function () {
 
     });
 
-    // # BTN -DELETE --
+    // ### MANEJO DE LOS DELETES ###
+
+    // # BTN -DELETE SALES con sus respectivos Items --
     // Funcion que le levanta el alert confirm delete
     $(document).on('click','#btn_delete',function(e){
 
@@ -316,20 +313,23 @@ $(function () {
 
     })
 
-    // # DELETE --
+    // # DELETE  de compra completa --
     // Si se confirma, esta fnction recibe un parametro id para delete
     function delete_sale(idSale){
+
         $.ajax({
-            type: "PUT",
-            url : URI_API+`sales/${idSale}`,
+            type: "delete",
+            url : URI_API+`payments/${idSale}`,
             headers: header,
             dataType: "JSON",
             success: function(data)
             {
 
-                $('#buy').hide();
-                $('#buy').empty();
-                $('#buy').toggle(1000);
+                console.log(data)
+
+                $('#row'+idSale).hide();
+                $('#row'+idSale).empty();
+                $('#row'+idSale).toggle(1000);
 
 
             },
@@ -350,6 +350,127 @@ $(function () {
         });
     }
 
+    // # BTN -DELETE SALES SIN Items --
+    // Funcion que le levanta el alert confirm delete
+    $(document).on('click','#btn_delete_pay',function(e){
+
+        var idSale = $(this).val()
+
+        toastr.warning(`Quiere eliminar este PAGO? <br /><br /><button type='button' value="`+idSale+`" id='confirmationButtonYes' class='btn btn-warning'>Si</button>`, "Atencion",
+        {
+            closeButton: true,
+            allowHtml: true,
+            progressBar: true,
+            onShown: function (toast) {
+                $("#confirmationButtonYes").click(function(){
+                    delete_pay($(this).val())
+                });
+            }
+        });
+
+    })
+
+    // # DELETE de un pago--
+    // Si se confirma, esta fnction recibe un parametro id (de un pago) para delete
+    function delete_pay(idSale){
+
+        $.ajax({
+            type: "delete",
+            url : URI_API+`payments/${idSale}`,
+            headers: header,
+            dataType: "JSON",
+            success: function(data)
+            {
+
+                console.log(data)
+
+                $('#row'+idSale).hide();
+                $('#row'+idSale).empty();
+                $('#row'+idSale).toggle(1000);
+
+
+            },
+
+            error:function (response){
+                $.each(response.responseJSON.errors,function(field_name, error){
+                    $(document).find('[name='+field_name+']').after('<small class="text-sm text-danger">' +error+ '</small>')
+                })
+
+                alert('Ups!, encontramos algunos errores')
+
+            }
+
+        }).done(function(){
+            //Cuando se completa la actual llamada, cambia el valor a true
+            //console.log('termino la ejecucion')
+
+        });
+    }
+
+
+    // Funcion que le levanta el alert confirm delete de Items de una compra
+    $(document).on('click','#btn_delete_item',function(e){
+
+        var idSale = $(this).val()
+
+        toastr.warning(`Quiere eliminar este registro? <br /><br /><button type='button' value="`+idSale+`" id='confirmationButtonYes' class='btn btn-warning'>Si</button>`, "Atencion",
+        {
+            closeButton: true,
+            allowHtml: true,
+            progressBar: true,
+            onShown: function (toast) {
+                $("#confirmationButtonYes").click(function(){
+                    delete_sale_item($(this).val())
+                });
+            }
+        });
+
+    })
+
+    // # DELETE  de item de a uno en uno --
+    // Si se confirma, esta fnction recibe un parametro id para delete
+    function delete_sale_item(idSale){
+
+        $.ajax({
+            type: "delete",
+            url : URI_API+`sales/${idSale}`,
+            headers: header,
+            dataType: "JSON",
+            success: function(data)
+            {
+
+                console.log(data)
+
+                if(data.itemCount == 0){
+
+                    $('#row'+data.identificator_sale).hide();
+                    $('#row'+data.identificator_sale).empty();
+                    $('#row'+data.identificator_sale).toggle(1000);
+
+                }
+
+                $('#item'+idSale).hide();
+                $('#item'+idSale).empty();
+                $('#item'+idSale).toggle(1000);
+
+
+            },
+
+            error:function (response){
+                $.each(response.responseJSON.errors,function(field_name, error){
+                    $(document).find('[name='+field_name+']').after('<small class="text-sm text-danger">' +error+ '</small>')
+                })
+
+                alert('Ups!, encontramos algunos errores')
+
+            }
+
+        }).done(function(){
+            //Cuando se completa la actual llamada, cambia el valor a true
+            //console.log('termino la ejecucion')
+
+        });
+    }
 
     // $(document).on('dblclick','#table_detail td',function(e){
 

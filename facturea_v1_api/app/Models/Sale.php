@@ -11,7 +11,7 @@ class Sale extends Model
 
     protected $fillable = [
 
-        'indentificator_sale',
+        'identificator_sale',
         'date_sale',
         'cuantity',
         'unit_price',

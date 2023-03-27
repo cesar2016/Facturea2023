@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('indentificator_sale');
+            $table->integer('identificator_sale');
             $table->dateTime('date_sale');
             $table->integer('cuantity');
             $table->integer('unit_price');

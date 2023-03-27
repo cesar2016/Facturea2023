@@ -84,7 +84,7 @@ Route::put('products/{product}',[ProductController::class, 'update'])->name('api
 Route::delete('products/{product}',[ProductController::class, 'destroy'])->name('api.v1.products.delete');
 
 // # SALES
-Route::get('sales',[SaleController::class, 'index'])->name('api.v1.sales.index');
+//Route::get('sales',[SaleController::class, 'index'])->name('api.v1.sales.index');
 Route::post('sales',[SaleController::class, 'store'])->name('api.v1.sales.store');
 Route::get('sales/{sale}',[SaleController::class, 'show'])->name('api.v1.sales.show');
 Route::put('sales/{sale}',[SaleController::class, 'update'])->name('api.v1.sales.update');
