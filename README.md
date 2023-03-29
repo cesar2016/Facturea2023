@@ -4,7 +4,7 @@
 <h1> Facturea.ar - API </h1>
 <h1> Facturea.ar - WEB </h1>
 </p>
-## FACTUREA ## 
+## FACTUREA 
 Es una aplicacion web para administrar PyMES y poder generar facturas electronicas, se basa en un proyecto anterior de similaries caracteristicas y las mismas en esta segunda version son optimizadas hasta inclusive se han agregado otras funcionalidades. Este proyecto aun no esta concluido, seguimos trabajando en nuestra version BETA (Febrero 2023) 
 
 
