@@ -84,7 +84,7 @@ $(function () {
                 //console.log(data)
                 var availableTags = [];
                 $.each(data, function(index, value) {
-                availableTags.push(value.id+ ' - ' +value.name + ' - ' + value.dni);
+                availableTags.push(value.id+ ' - ' +value.name+' '+value.lastname + ' - ' + value.dni);
                 });
                 $( "#tags" ).autocomplete({
                 source: availableTags,

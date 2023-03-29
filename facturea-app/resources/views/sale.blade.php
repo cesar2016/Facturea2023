@@ -3,7 +3,7 @@
 @section('title', 'VENTAS')
 
 @section('content_header')
-    <h1>VENTAS ...</h1>
+    <h1>GENERACION DE COMPROBANTES</h1>
 @stop
 
 @section('css')
@@ -42,7 +42,8 @@
 
     <div class="row">
         <div class="col-12">
-            <h4>Nav Tabs Overlay for loading</h4>
+            <h4>En esta seccion podra generar recibos y facturas de tipo A, B o C, segun le corresponda</h4>
+            <span>Tambien es esta seccion se iran registrando tanto las ventas de contado como a credito</span>
         </div>
     </div>
     <div class="row">

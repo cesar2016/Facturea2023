@@ -67,7 +67,7 @@ $(function () {
 
     });
 
-    ////////////////////// End/ Manejo apertura y ciero del Form ////////////////////
+    ////////////////////// End/ Manejo apertura y cierre del Form ////////////////////
 
 
     // -------------------------------------------------------------------|
@@ -297,9 +297,50 @@ $(function () {
     //--------------------------------------------------------------------|
 
 
+    // ### PRESENTACION DE LAS ALETAS DE PAGO - VENCIMIENTOS ###
+
+    function deyPased(date_payment){
+        var dateCurrent = new Date();
+        var dateFuture = new Date(date_payment);
+        var result = Math.abs(dateFuture - dateCurrent)/1000;
+        var days = Math.floor(result/86400);
+        return days;
+    }
 
 
 
+    $.ajax({
+        type: "GET",
+        url : URI_API+`last_pay`,
+        //data: datos_update_products,
+        headers: header,
+        dataType: "JSON",
+        success: function(data)
+        {
+
+            console.log(data)
+            $.each(data, function(index, value){
+
+                let num = deyPased(value.date_payment);
+                let color = num < 25 ? "success" : num > 25 && num < 30 ? "warning" : num >= 30 ? "danger" : ""
+
+                $('#date_expired'+value.client_id).append(
+
+                    `   <h4>
+                            <a href='client_acount/`+value.client_id+`' ><small title='Su ultimo pago fue hace ` +num+ ` dias ' class="badge badge-` +color+ `">
+                                <i class="far fa-clock"><b> ` +num+ ` </b></i></small>
+                            </small></a>
+                        </h4>
+                    `
+
+                )
+
+
+            });
+
+        }
+
+    });
 
 
 

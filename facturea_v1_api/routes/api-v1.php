@@ -100,6 +100,7 @@ Route::put('payments/{payment}',[PaymentController::class, 'update'])->name('api
 Route::delete('payments/{payment}',[PaymentController::class, 'destroy'])->name('api.v1.payments.delete');
 Route::get('calculator_totals/{payment}',[PaymentController::class, 'calculator_totals'])->name('api.v1.payments.calculator_totals');
 Route::post('store_pay_account',[PaymentController::class, 'store_pay_account'])->name('api.v1.store_pay_account.store');
+Route::get('last_pay',[PaymentController::class, 'last_pay'])->name('api.v1.payments.last_pay');
 
 
 

@@ -72,7 +72,7 @@
         <table id="payments" class="table table-striped table-bordered table" style="width:100%">
             <thead>
                 <tr>
-                    <th>Venta N°</th>
+                    <th>Venta N° | Pago</th>
                     <th>Importe cpra.</th>
                     <th>Entrega</th>
                     <th>Descuento</th>
@@ -231,6 +231,7 @@
 @section('js')
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> --}}
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
 

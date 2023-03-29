@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -25,10 +26,21 @@ class ClienteController extends Controller
         //'body' => json_encode($data),
         ]);
 
+        $responsePayments = $this->client->request('GET','payments', [
+        'headers' => [ 'Accept' => 'application/json', 'Authorization' => 'Bearer ' . $token ],
+        //'body' => json_encode($data),
+        ]);
+
+        $datePayments = json_decode($responsePayments->getBody(), true);
+
+        $days_expired = $this->expired_date($datePayments);
+
         //$clients = $raw_response->getBody()->getContents();
         $clients = json_decode($response->getBody(), true);
 
+        //$clients = array_push($clients, $days_expired);
 
+         //return $clients;
         //$clients = ['nombre' => 'cesar sanchez', 'edad'=> 40];
         return view('clients', compact('clients'));
     }
@@ -98,4 +110,37 @@ class ClienteController extends Controller
     {
         //
     }
+
+
+    // ## FUNCION PARA MANEJAR LOS PAYMENTS - Vencimientos
+
+    public function expired_date($datePayments){
+
+        foreach ($datePayments as $item) {
+
+            // Obtenga la fecha actual
+            $fechaActual = Carbon::now();
+
+            // Obtenga la fecha especificada en la pregunta
+            $dates = Carbon::parse($item['date_payment']);
+
+            // Calcule la diferencia en días
+            $days = $dates->diffInDays($fechaActual);
+
+            //Despliegue el resultado
+            //echo "Han pasado $diferenciaEnDias días desde la fecha especificada.<br>";
+
+            $arr[] = [
+
+                'clinet_id' => $item['client_id'],
+                'days' => $days
+            ];
+        }
+
+        return $arr;
+
+    }
+
+
+
 }

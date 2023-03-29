@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Sale;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -178,4 +179,18 @@ class PaymentController extends Controller
         }
 
     }
+
+    // ## Metodo para traer los ultimospagos realizados de cada cliente
+    function last_pay(){
+
+        $payments = Payment::select('client_id', DB::raw('max(date_payment) as date_payment'))
+        ->groupBy('client_id')
+        ->get();
+
+        return $payments ;
+
+    }
+
+
+
 }

@@ -81,6 +81,7 @@
                 <th>Localidad</th>
                 <th>Telefono</th>
                 <th>Email</th>
+                <th>Status</th>
                 <th>ACCIONES</th>
             </tr>
         </thead>
@@ -93,18 +94,19 @@
                         <td>{{ $client['city'] }}</td>
                         <td>{{ $client['phone'] }}</td>
                         <td>{{ $client['email'] }}</td>
+                        <td id="{{ 'date_expired'.$client['id'] }}"></td>
                         <td>
                             <button id='btn_update' value="{{ $client['id'] }}" class='btn' type="button" data-toggle="modal"
                                 data-target="#updateModal">
-                                <i class='fa fa-pen text-info'> </i>
+                                <i class='fa fa-pen text-default'> </i>
                             </button>
                             <button id='btn_delete' value="{{ $client['id'] }}" class='btn' type="button" data-toggle="modal"
                                 data-target="#updateModal">
                                 <i class='fa fa-trash text-danger '></i>
                             </button>
-                            <a href="{{url('client_acount',$client['id'])}}" class="btn" role="button" aria-pressed="true">
+                            {{-- <a href="{{url('client_acount',$client['id'])}}" class="btn" role="button" aria-pressed="true">
                                 <i class='fa fa-eye '></i>
-                            </a>
+                            </a> --}}
 
                         </td>
                     </tr>
