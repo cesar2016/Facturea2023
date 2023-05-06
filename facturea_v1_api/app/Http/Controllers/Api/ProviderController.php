@@ -69,9 +69,9 @@ class ProviderController extends Controller
      public function update(Request $request, Provider $provider)
      {
 
+
         if( !empty($request->percent) ){
            $this->increase( $provider->id, $request->percent );
-
         }
 
         //dd($request);
@@ -115,6 +115,9 @@ class ProviderController extends Controller
         ->whereIn('brand_product_id', $brandProducts)
         ->get();
 
+
+
+        $arr_id_products = [];
         foreach ($products as $product) {
 
             //echo 'ID_Product '.$product->id.' $'.$product->price_sale.'<br>';
@@ -126,6 +129,31 @@ class ProviderController extends Controller
             ->update(['price_sale' => $p + $product->price_sale]);
 
 
+            array_push($arr_id_products, $product->id);
+
+
+        }
+
+        $sales = DB::table('sales')
+        ->whereIn('product_id', $arr_id_products)
+        ->get();
+
+
+
+        foreach ($sales as $sale) {
+
+            $p_unit_price = $sale->unit_price * $percent / 100;
+            $p_total_price = $sale->total_price * $percent / 100;
+
+
+            DB::table('sales')
+            ->where('product_id', $sale->product_id)
+            ->update([
+                        'unit_price' => $sale->unit_price +  $p_unit_price,
+                        'total_price' => $sale->total_price + $p_total_price
+                    ]);
+
+
         }
 
 
@@ -134,3 +162,6 @@ class ProviderController extends Controller
 
 
 }
+
+
+
