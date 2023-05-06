@@ -16,7 +16,7 @@ return [
 
     'title' => 'AdminLTE 3',
     'title_prefix' => '',
-    'title_postfix' => '| Facture',
+    'title_postfix' => '| Facturea',
 
     /*
     |--------------------------------------------------------------------------
@@ -322,7 +322,7 @@ return [
         ['header' =>  'ADMIN PRODUCTOS'],
 
         [
-            'text'    => 'Sub Menu',
+            'text'    => ' Mostrar',
             'icon'    => 'fas fa-fw fa-circle text-danger',
             'submenu' => [
                 [

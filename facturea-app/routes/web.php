@@ -7,6 +7,7 @@ use App\Http\Controllers\Client_acountController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Proforma_C_Controller;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ReciveController;
 use App\Http\Controllers\SaleController;
@@ -57,6 +58,7 @@ Route::get('/products', [ProductController::class, 'index'])->name('products');
 
 Route::get('/sale', [SaleController::class, 'index'])->name('sale');
 Route::post('/recive', [ReciveController::class, 'store'])->name('recive');
+Route::GET('/create_invoice_c', [Proforma_C_Controller::class, 'create_invoice_c'])->name('create_invoice_c');
 
 Route::get('/client_acount/{id}', [Client_acountController::class, 'index'])->name('client_acount');
 
