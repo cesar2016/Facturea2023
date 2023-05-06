@@ -1,11 +1,12 @@
 <p align="center"><a href="#"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center"> 
-<h1><a>Facturea.ar - API</a></h1>
-<h1><a>Facturea.ar - WEB</a></h1>
- 
-## FACTUREA es una aplicacion web para administrar PyMES y poder generar facturas electronicas, se basa en un proyecto anterior de similaries caracteristicas y las mismas en esta segunda version son optimizadas hasta inclusive se han agregado otras funcionalidades. Este proyecto aun no esta concluido, seguimos trabajando en nuestra version BETA (Febrero 2023) 
+<h1> Facturea.ar - API </h1>
+<h1> Facturea.ar - WEB </h1>
 </p>
+## FACTUREA 
+Es una aplicacion web para administrar PyMES y poder generar facturas electronicas, se basa en un proyecto anterior de similaries caracteristicas y las mismas en esta segunda version son optimizadas hasta inclusive se han agregado otras funcionalidades. Este proyecto aun no esta concluido, seguimos trabajando en nuestra version BETA (Febrero 2023) 
+
 
 <hr> 
 <p align="center">
