@@ -33,7 +33,13 @@ class ClienteController extends Controller
 
         $datePayments = json_decode($responsePayments->getBody(), true);
 
-        $days_expired = $this->expired_date($datePayments);
+
+        if( count($datePayments) > 0){
+            $days_expired = $this->expired_date($datePayments);
+        }else{
+            $days_expired = '';
+        }
+
 
         //$clients = $raw_response->getBody()->getContents();
         $clients = json_decode($response->getBody(), true);
@@ -116,6 +122,9 @@ class ClienteController extends Controller
 
     public function expired_date($datePayments){
 
+
+
+
         foreach ($datePayments as $item) {
 
             // Obtenga la fecha actual
@@ -136,6 +145,7 @@ class ClienteController extends Controller
                 'days' => $days
             ];
         }
+
 
         return $arr;
 

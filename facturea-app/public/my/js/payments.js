@@ -32,7 +32,7 @@ $(function () {
             // El resto del código
             success : function(data) {
 
-                console.log(data)
+                //console.log(data)
                 if(data.total_debt == 0){
 
                     var total_debt = 'El cliente esta al dia ...'
@@ -49,7 +49,6 @@ $(function () {
                 $('#view_total_debt').toggle(1000)
                 $('#view_total_debt').show(total_debt)
                 $('#view_total_debt').html(total_debt)
-
 
             }
 
@@ -76,7 +75,7 @@ $(function () {
             dataType: "JSON",
             success: function(data)
             {
-                console.log(data)
+                console.log('Insert Pay ',data)
 
                 view_debt(data.client_id)
 
@@ -153,13 +152,13 @@ $(function () {
                             <td> $ `+value.unit_price+` </td>
                             <td> $ `+value.total_price+` </td>
                             <td>
-                                <button id='btn_update' value="`+value.id+`" class='btn btn-sm' type="button" data-toggle="modal"
+                                <button title='Modificar items de la compra' id='btn_update' value="`+value.id+`" class='btn btn-sm' type="button" data-toggle="modal"
                                     data-target="#updateModal">
-                                    <i class='fa fa-pen text-default '></i>
+                                    <i class='fa fa-pen text-default'></i>
                                 </button>
-                                <button id='btn_delete_item' value="`+value.id+`" class='btn btn-sm' type="button" data-toggle="modal"
+                                <button title='Eliminar item' id='btn_delete_item' value="`+value.id+`" class='btn btn-sm' type="button" data-toggle="modal"
                                     data-target="#updateModal">
-                                    <i class='fa fa-trash text-danger '></i>
+                                    <i class='fa fa-trash text-danger'></i>
                                 </button>
                             </td>
                         </tr>
@@ -192,7 +191,6 @@ $(function () {
 
 
     // # UPDATE del detalle
-
     $('#capa-form-update').hide();
     function removeDollarSign(number) { // Function para eliminar el signo de $
         return Number(number.replace('$', ''));   }
@@ -200,16 +198,14 @@ $(function () {
 
     $(document).on('click','#btn_update',function(e){
 
-
         $('#form-update-sale').trigger("reset");
-
 
         e.preventDefault();
         $('#capa-form-update').toggle(1000);
 
         var idSale = $(this).val();
 
-        console.log(idSale)
+        //console.log(idSale)
 
         $.ajax({
             type: "GET",
@@ -221,7 +217,7 @@ $(function () {
             // El resto del código
             success : function(data) {
 
-                console.log(data)
+                //console.log(data)
 
                 $('#date').val(data[0].date_sale)
                 $('#cuantity').val(data[0].cuantity)
@@ -229,7 +225,6 @@ $(function () {
                 $('#unit_price').val(data[0].unit_price)
                 $('#total_price').val(data[0].total_price)
                 $('#btn-form-update-sale').val(idSale)
-
 
                 var $option = $('<option>', {
                     value: 10,
@@ -262,16 +257,17 @@ $(function () {
             // El resto del código
             success : function(data) {
 
-                console.log(data)
+                //console.log(data)
 
-                $('#buy').hide();
-                $('#buy').empty();
-                $('#buy').toggle(1000);
+                $('#debt_cpra'+data.identificator_sale).hide();
+                $('#debt_cpra'+data.identificator_sale).empty();
+                $('#debt_cpra'+data[0].identificator_sale).html(data['new_dbt_cpra']);
+                $('#debt_cpra'+data.identificator_sale).toggle(1000);
 
                 $('#form-update-sale').trigger("reset");
                 $('#capa-form-update').toggle(1000);
 
-                view_buy(idSale)
+                view_debt(data[0].client_id)
 
             },
 
@@ -286,12 +282,14 @@ $(function () {
 
         }).done(function(){
             alert_add_success('venta modificada con exito!', 'Good...!')
+            //location.reload();
 
         });
 
     });
-
+    // #############################
     // ### MANEJO DE LOS DELETES ###
+    // #############################
 
     // # BTN -DELETE SALES con sus respectivos Items --
     // Funcion que le levanta el alert confirm delete
@@ -299,7 +297,7 @@ $(function () {
 
         var idSale = $(this).val()
 
-        toastr.warning(`Quiere eliminar este registro? <br /><br /><button type='button' value="`+idSale+`" id='confirmationButtonYes' class='btn btn-warning'>Si</button>`, "Atencion",
+        toastr.warning(`Quiere eliminar este PAGO completo? <br /><br /><button type='button' value="`+idSale+`" id='confirmationButtonYes' class='btn btn-warning'>Si</button>`, "Atencion",
         {
             closeButton: true,
             allowHtml: true,
@@ -325,10 +323,15 @@ $(function () {
             success: function(data)
             {
 
-                console.log(data)
+                //console.log(data)
+
+                view_debt(client_id)
 
                 $('#row'+idSale).hide();
                 $('#row'+idSale).empty();
+                $('#row'+idSale).html(
+                    `<small text='danger' class='m-2'>`+data.msg+`</small>`
+                );
                 $('#row'+idSale).toggle(1000);
 
 
@@ -356,7 +359,7 @@ $(function () {
 
         var idSale = $(this).val()
 
-        toastr.warning(`Quiere eliminar este PAGO? <br /><br /><button type='button' value="`+idSale+`" id='confirmationButtonYes' class='btn btn-warning'>Si</button>`, "Atencion",
+        toastr.warning(`Quiere eliminar esta ENTREGA? <br /><br /><button type='button' value="`+idSale+`" id='confirmationButtonYes' class='btn btn-warning'>Si</button>`, "Atencion",
         {
             closeButton: true,
             allowHtml: true,
@@ -376,16 +379,21 @@ $(function () {
 
         $.ajax({
             type: "delete",
-            url : URI_API+`payments/${idSale}`,
+            url : URI_API+`destroy_pay/${idSale}`,
             headers: header,
             dataType: "JSON",
             success: function(data)
             {
 
-                console.log(data)
+                //console.log(data)
+
+                view_debt(client_id)
 
                 $('#row'+idSale).hide();
                 $('#row'+idSale).empty();
+                $('#row'+idSale).html(
+                    `<small text='danger' class='m-2'>`+data.msg+`</small>`
+                );
                 $('#row'+idSale).toggle(1000);
 
 
@@ -431,6 +439,7 @@ $(function () {
     // Si se confirma, esta fnction recibe un parametro id para delete
     function delete_sale_item(idSale){
 
+
         $.ajax({
             type: "delete",
             url : URI_API+`sales/${idSale}`,
@@ -439,19 +448,23 @@ $(function () {
             success: function(data)
             {
 
-                console.log(data)
+                console.log(' Delete Item ',data)
 
-                if(data.itemCount == 0){
+                if(data.itemCount == 1){
 
-                    $('#row'+data.identificator_sale).hide();
-                    $('#row'+data.identificator_sale).empty();
-                    $('#row'+data.identificator_sale).toggle(1000);
-
+                    return $('#msg_item_last').prop("hidden", false).text(data.msg)
                 }
+
+                $('#row'+data.identificator_sale).toggle(1000);
+                $('#row'+data.identificator_sale).show();
+                $('#debt_cpra'+data.identificator_sale).text(data.new_price_sale);
+                $('#row'+data.identificator_sale).toggle(2000);
 
                 $('#item'+idSale).hide();
                 $('#item'+idSale).empty();
                 $('#item'+idSale).toggle(1000);
+
+                view_debt(data.client_id)
 
 
             },
@@ -471,6 +484,20 @@ $(function () {
 
         });
     }
+
+
+    // # Funcion que se activa al modificar los input de form del
+    // update modal detalle de la compra para recalcular los valores
+    $(document).on('click, change, keyup','#cuantity, #unit_price',function(e){
+
+        const cuantity = $('#cuantity').val()
+        const unit_price = $('#unit_price').val()
+
+        $('#total_price').val( cuantity * unit_price )
+
+    })
+
+
 
     // $(document).on('dblclick','#table_detail td',function(e){
 

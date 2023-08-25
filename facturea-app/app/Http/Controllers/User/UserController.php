@@ -66,16 +66,22 @@ class UserController extends Controller
 
     }
 
-    public function testing(Request $request)
+    public function testing()
     {
 
-        // $minutes = 60;
-        // $response = new Response('Set Cookie');
-        // $response->withCookie(cookie('facturea_token', 'MyValue', $minutes));
-        // return $response;
 
-        $value = $request->cookie('facturea_token');
-        echo $value;
+
+
+        $token = '4|6LMImgFqw0Cfv6QoznsxxOPjwE2fAq8ivtfXAW5P';
+        $response = $this->client->post('http://44.204.35.177/api/info_user', [
+            'headers' => [ 'Accept' => 'application/json', 'Authorization' => 'Bearer ' . $token ],
+
+
+
+        ]);
+
+
+        return $getDatesClient = json_decode($response->getBody(), true);
 
 
     }

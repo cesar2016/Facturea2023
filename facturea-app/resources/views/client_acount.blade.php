@@ -97,14 +97,16 @@
                             @endif
 
                         </td>
-                        <td>{{ $payment['debt'] == 0 ? ' - ' : ' $ ' . $payment['debt'] }}</td>
+                        <td id="{{ 'debt_cpra' . $row }}">
+                            {{ $payment['debt'] }}
+                        </td>
                         <td>{{ $payment['payment'] == 0 ? ' - ' : ' $ ' . $payment['payment'] }}</td>
                         <td>{{ $payment['countdown'] == 0 ? ' - ' : ' $ ' . $payment['countdown'] }}</td>
                         <td>{{ date('d-m-Y h:m:s', strtotime($payment['date_payment'])) }}</td>
                         <td>
 
                             @if ($payment['identificator_sale'])
-                                <button id='btn_view_buy' name="btn_view_buy" value="{{ $payment['identificator_sale'] }}"
+                                <button title='Ver detalle de la compra' id='btn_view_buy' name="btn_view_buy" value="{{ $payment['identificator_sale'] }}"
                                     class='btn btn-sm' type="button" data-toggle="modal"
                                     data-target=".bd-example-modal-lg">
                                     <i class='fa fa-file-invoice'> </i>
@@ -113,14 +115,14 @@
 
                             {{-- Este elimina la venta completa --}}
                             @if ($payment['identificator_sale'])
-                                <button id='btn_delete' value="{{ $payment['identificator_sale'] }}" class='btn btn-sm'
+                                <button title='Eliminar toda la compra' id='btn_delete' value="{{ $payment['identificator_sale'] }}" class='btn btn-sm'
                                     type="button" data-toggle="modal" data-target="#updateModal">
                                     <i class='fa fa-trash text-danger '></i>
                                 </button>
                             @else
 
                             {{-- Este Elimina un pago --}}
-                                <button id='btn_delete_pay' value="{{ $payment['id'] }}" class='btn btn-sm'
+                                <button title='Eliminar este pago' id='btn_delete_pay' value="{{ $payment['id'] }}" class='btn btn-sm'
                                     type="button" data-toggle="modal" data-target="#updateModal">
                                     <i class='fa fa-trash text-danger '></i>
                                 </button>
@@ -165,7 +167,7 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <label for="detail">Detalle</label>
+                                    <label for="detail" id="test">Detalle</label>
 
                                     <select class="form-control miSelect1" name="product_id" id="product_id" style='width: 650px;  padding-top:5px;'>
                                         <option disabled selected value="0" id='default1' style="display:none" > Elija categoría... </option>
@@ -187,7 +189,7 @@
                                   </div>
                                   <div class="form-group col-md-2">
                                     <label for="total_price">Precio total</label>
-                                    <input type="number" class="form-control" id="total_price" name="total_price">
+                                    <input type="number" class="form-control" id="total_price" readonly name="total_price">
                                   </div>
 
                             </div>
@@ -217,7 +219,11 @@
 
                     </table>
                 </div>
+                    <div class="container">
+                        <div class="alert alert-warning" hidden role="alert" id="msg_item_last"></div>
+                    </div>
             </div>
+
         </div>
 
     </div>

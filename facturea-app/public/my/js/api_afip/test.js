@@ -2,8 +2,12 @@
 $(function () {
 
     //** CONSTANTES DE ENTORNO */
-    var URI_API = 'http://127.0.0.1:8000/api/'
-    var TOKEN = '4|RZJvGqIbrlfNUMqSp95uCmWR5YHwodt4ZB27B3aW'
+    //var URI_API = 'http://127.0.0.1:8000/api/' //LOCAL
+    //var TOKEN = '4|RZJvGqIbrlfNUMqSp95uCmWR5YHwodt4ZB27B3aW' // Token Local
+
+    var URI_API = 'http://44.204.35.177/api/'; // AWS Remoto
+    var TOKEN = '4|6LMImgFqw0Cfv6QoznsxxOPjwE2fAq8ivtfXAW5P' // AWS Remoto
+
     var header = {'Authorization': 'Bearer '+TOKEN}
 
     // console.log(URI_API)
@@ -11,7 +15,6 @@ $(function () {
 
     // *********End/ Variables de entorno **********/
 
-    alert();
 
     var data = {
 

@@ -9,6 +9,7 @@ use App\Models\Sale;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Svg\Tag\Rect;
 
 class PaymentController extends Controller
 {
@@ -68,6 +69,7 @@ class PaymentController extends Controller
      */
     public function show($id)
     {
+
         $payments = Payment::where('client_id',$id)
         ->with(['Client'])
         ->get();
@@ -95,6 +97,7 @@ class PaymentController extends Controller
      */
     public function update(Request $request, Payment $payment)
     {
+
         $request->validate([
 
             'client_id' => 'required|numeric',
@@ -129,15 +132,16 @@ class PaymentController extends Controller
             ->where('identificator_sale', $identificator_sale)
             ->delete();
 
-            return response()->json(['message' => 'La venta se ha eliminados exitosamente.']);
+            return response()->json(['msg' => 'VENTA eliminada ...']);
     }
 
     public function destroy_pay($id)
     {
-
             Payment::destroy($id);
-            return response()->json(['message' => 'La venta se ha eliminados exitosamente.' + $id]);
+            return response()->json(['msg' => 'ENTREGA eliminada ...']);
     }
+
+
 
     public function calculator_totals($client_id)
     {
@@ -148,7 +152,6 @@ class PaymentController extends Controller
         $countdown = DB::table('payments')->where('client_id', $client_id)->sum('countdown');
 
         $plus = $countdown + $payments;
-
         $total_debt = $debt - $plus;
 
         return response()->json(['total_debt' => $total_debt]);
@@ -180,7 +183,7 @@ class PaymentController extends Controller
 
     }
 
-    // ## Metodo para traer los ultimospagos realizados de cada cliente
+    // ## Metodo para traer los ultimos pagos realizados de cada cliente
     function last_pay(){
 
         $payments = Payment::select('client_id', DB::raw('max(date_payment) as date_payment'))
@@ -190,6 +193,7 @@ class PaymentController extends Controller
         return $payments ;
 
     }
+
 
 
 

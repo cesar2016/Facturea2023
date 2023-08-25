@@ -8,11 +8,14 @@ use App\Models\Product;
 use App\Models\Sale;
 use Dotenv\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Laravel\SerializableClosure\Serializers\Signed;
 
+
 class SaleController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -121,6 +124,7 @@ class SaleController extends Controller
     public function update(Request $request, $id_sale)
     {
 
+
         $saleStock = Sale::find($id_sale);
 
         if($request->cuantity > $saleStock->cuantity){
@@ -157,7 +161,9 @@ class SaleController extends Controller
 
         $sale->save();
 
-        return $sale;
+        $new_dbt_cpra = $this->recalculating_debt($saleStock->identificator_sale);
+
+        return response([$sale, 'new_dbt_cpra'=>$new_dbt_cpra]);
     }
 
     /**
@@ -168,21 +174,37 @@ class SaleController extends Controller
      */
     public function destroy($sale)
     {
-
         $item = Sale::find($sale);
+
+        $itemCount = $this->show($item->identificator_sale)->count();
+
+        if( $itemCount == 1 ){
+
+            //  DB::table('payments')
+            //      ->where('identificator_sale', $item->identificator_sale)
+            //      ->delete();
+            return response()->json([
+
+                                        'itemCount' => $itemCount,
+                                        'msg' => 'Ups!. Solo le queda un item, debe ELIMINAR toda la compra desde el panel acciones '
+
+                                    ]);
+
+        }
+
+
         $this->updateStock_for_delete($item->product_id, $item->cuantity);
 
         Sale::destroy($sale);
 
-        DB::table('payments')
-            ->where('identificator_sale', $item->identificator_sale)
-            ->delete();
+        $new_price_sale = $this->recalculating_debt($item->identificator_sale);
 
-        $itemCount = Sale::where('identificator_sale', $item->identificator_sale)->count();
 
         return response()->json([
                                     'itemCount' => $itemCount,
-                                    'identificator_sale' => $item->identificator_sale
+                                    'identificator_sale' => $item->identificator_sale,
+                                    'client_id' => $item->client_id,
+                                    'new_price_sale' => $new_price_sale
                                 ]);
     }
 
@@ -267,6 +289,23 @@ class SaleController extends Controller
         $payment->status = $status; // Si el cliente esta debiendo dinero se pone = 1, si esta al dia = 0
 
         $payment->save();
+
+    }
+
+
+    // # Recalcular el DEBT - $identificator_sale = id de la compra
+    function recalculating_debt($identificator_sale){
+
+        $total_new = Sale::where('identificator_sale', $identificator_sale)
+        ->sum('total_price');
+
+        Payment::where('identificator_sale', '=', $identificator_sale)
+                ->update([
+                    'debt' => $total_new
+                ]);
+
+
+        return $total_new; // Arroja el nuevo total de la compra cuyo id de la compra = $identificator_sale
 
     }
 }

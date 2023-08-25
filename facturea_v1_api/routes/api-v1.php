@@ -32,10 +32,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+// # TESTING ROUTE
 Route::get('/test', function(){
      return 'FACTUREA-V1-API';
 });
+
+// Ruta para recalcular las deudas
+Route::get('recalculating_debt/{identificator_sale}',[PaymentController::class, 'recalculating_debt']);
 
 
 // # REGISTER
@@ -98,6 +101,8 @@ Route::post('payments',[PaymentController::class, 'store'])->name('api.v1.paymen
 Route::get('payments/{payment}',[PaymentController::class, 'show'])->name('api.v1.payments.show');
 Route::put('payments/{payment}',[PaymentController::class, 'update'])->name('api.v1.payments.update');
 Route::delete('payments/{payment}',[PaymentController::class, 'destroy'])->name('api.v1.payments.delete');
+Route::delete('destroy_pay/{payments_entrega}',[PaymentController::class, 'destroy_pay'])->name('api.v1.payments.delete_pay');
+
 Route::get('calculator_totals/{payment}',[PaymentController::class, 'calculator_totals'])->name('api.v1.payments.calculator_totals');
 Route::post('store_pay_account',[PaymentController::class, 'store_pay_account'])->name('api.v1.store_pay_account.store');
 Route::get('last_pay',[PaymentController::class, 'last_pay'])->name('api.v1.payments.last_pay');

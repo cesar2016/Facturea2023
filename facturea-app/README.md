@@ -64,3 +64,22 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+
+Mi Anotador:::
+
+3-8 -> Arreglar el resultado de la suma de una compra en la cuenta corriente del cliente, no esta bn eso que muestra (listo)
+
+15-8-> al eliminar un item de la compra elimina toda la compra en la tabla de payments (Listo)
+
+15-8-> al eliminar un item no recaulcula el importe total (nuevo) de la compra (Listo)
+
+25-8-> Manejo de los aumentos desde la vista de proveedores:
+    - Crear formulario para aumentar todos los productos
+    - Aplicar o no a las ctas/ctes por fecha
+    
+    
+

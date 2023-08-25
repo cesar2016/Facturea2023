@@ -18,12 +18,12 @@ return new class extends Migration
 
             $table->foreignId('client_id')->constrained();
 
-            $table->string('identificator_sale');
-            $table->integer('debt');
-            $table->integer('payment');
-            $table->integer('countdown');
+            $table->string('identificator_sale')->nullable();
+            $table->integer('debt')->nullable();
+            $table->integer('payment')->nullable();
+            $table->integer('countdown')->nullable();
             $table->dateTime('date_payment');
-            $table->string('status');
+            $table->string('status')->nullable();
 
             $table->timestamps();
         });
