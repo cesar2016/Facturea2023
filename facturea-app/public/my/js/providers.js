@@ -51,30 +51,44 @@ $(function () {
         }
     }
 
-    // # Funcion para ver si el form esta abierto o cerrado
-    function opene() {
+    // # Funcion para ver si el form PROVIDER esta abierto o cerrado
+    function opene_new_provider() {
 
         console.log($('#view-new-provider').is(':visible'))
         $('#percent').prop('hidden', true) // Input del aumento por %
         return $('#view-new-provider').is(':visible')
-        }
+    }
 
-        $(document).on('click','#close-form',function(e){
+    $(document).on('click','#close-form',function(e){
 
         e.preventDefault();
         $('#view-new-provider').toggle(1000)
 
+    })
+
+    // # Funcion para ver si el form AUMENTOS esta abierto o cerrado
+    function opene_new_aumentos() {
+
+        //console.log($('#view-new-aumentos').is(':visible'))
+        $('#percent').prop('hidden', true) // Input del aumento por %
+        return $('#view-new-aumentos').is(':visible')
+    }
+
+    $(document).on('click','#close-form-aumentos',function(e){
+
+        e.preventDefault();
+        $('#view-new-aumentos').toggle(1000)
 
     })
 
-    // # Mostrar y Ocultar form
+    // # Mostrar y Ocultar form New PROVIDERS
     $('#view-new-provider').hide();
     $('#percent').prop('hidden', true) // Input del aumento por %
 
     $('#btn-new-provider').click(function (e) {
         e.preventDefault();
 
-        if( opene() == false ){
+        if( opene_new_provider() == false ){
             $('#view-new-provider').toggle(1000)
         };
 
@@ -82,6 +96,22 @@ $(function () {
         $("#form-new-provider")[0].reset();
 
     });
+
+    // # Mostrar y Ocultar form New AUMENTOS
+    $('#view-new-aumentos').hide();
+
+    $('#btn-new-aumentos').click(function (e) {
+        e.preventDefault();
+
+        if( opene_new_aumentos() == false ){
+            $('#view-new-aumentos').toggle(1000)
+        };
+
+        properties_form('new')
+        $("#form-new-aumentos")[0].reset();
+
+    });
+
 
     // # Manejo de la seleccion de los radioButtons
     function status_select(){
@@ -107,7 +137,7 @@ $(function () {
 
 
     // -------------------------------------------------------------------|
-    // ## ---------------- MANEJO DEL CRUD -------------------------------|
+    // ## ---------------- MANEJO DEL CRUD PROVEEDORES -------------------|
     //--------------------------------------------------------------------|
 
     // # NUEVO INSERT --
@@ -181,7 +211,7 @@ $(function () {
         $("#form-new-provider")[0].reset();
         properties_form('update')
 
-        if( opene() == false ){
+        if( opene_new_provider() == false ){
             $('#view-new-provider').toggle(1000)
         };
 
@@ -339,10 +369,63 @@ $(function () {
     }
 
     // -------------------------------------------------------------------|
-    // ## ---------------- End/ MANEJO DEL CRUD -------------------------------|
+    // ## ---------------- MANEJO DEL CRUD DE AUMENTOS--------------------|
     //--------------------------------------------------------------------|
 
+    // Verifica si el checkbox está marcado para agregar aumentos por fecha
+    $("#percent_aumento_check").on("change", function() {
 
+        if ($(this).prop("checked")) {
+            $("#percent_aumento_desde").removeAttr("disabled");
+            $("#percent_aumento_hasta").removeAttr("disabled");
+        } else {
+            $("#percent_aumento_desde").attr("disabled", true);
+            $("#percent_aumento_hasta").attr("disabled", true);
+        }
+    });
+
+    $(document).on('keypress','#percent_aumento',function(e){
+
+        $('#error_porcent').html('')
+    })
+
+    $(document).on('click','#btn-form-new-aumentos',function(e){
+
+        e.preventDefault();
+
+        const datos_provider = $("#form-new-aumentos").serialize();
+        //console.log(datos_provider);
+        $.ajax({
+            type: "POST",
+            url: URI_API+'providers_aumento',
+            data: datos_provider,
+            headers: header,
+            dataType: "JSON",
+            success: function(data)
+            {
+                //console.log('Devueve', data)
+
+            },
+
+            error:function (jqXHR, textStatus, errorThrown){
+
+                $('#error_porcent').html('<small class="text-sm text-danger">Debe insertar un valor numerico como porcentaje del aumento</small>')
+
+            }
+
+        }).done(function(data){
+
+            if(data.msg[0]){
+                alert_add_success(data.msg[0])
+            }
+            if(data.msg[1]){
+                alert_add_success(data.msg[1])
+            }
+
+
+        });
+
+    })
 
 
 

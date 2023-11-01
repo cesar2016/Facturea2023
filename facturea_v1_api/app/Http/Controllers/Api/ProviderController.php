@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Provider;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +18,6 @@ class ProviderController extends Controller
      */
     public function index()
     {
-
         $providers = Provider::all();
         return $providers;
     }
@@ -158,6 +159,118 @@ class ProviderController extends Controller
 
 
      }
+
+      // # Se aumentan todas la cuentas corrientes en el rango de fechas que se le pase
+      // Si no se elige rango de fechas, se le aumenta a todos
+      public function aumento_update(Request $request)
+      {
+
+        if ( $request->percent_aumento == null || !is_numeric($request->percent_aumento)) {
+            return false;
+        }
+
+        $insert_plus = [];
+
+
+        if ($request->percent_aumento_check) {
+
+            $sales = Sale::whereBetween('date_sale', [$request->percent_aumento_desde, $request->percent_aumento_hasta])
+            ->where('type_sale_id', '<>', 1)
+            ->get();
+
+            if( count($sales) == 0){
+
+                $insert_plus[] = 'No existen datos para el rango de fechas que elegio';
+                return response()->json([
+                    'msg' => $insert_plus,
+                ]);
+            }
+
+            $id_sales = [];
+            foreach ($sales as $sale) {
+
+                $id_sales[] = $sale->identificator_sale;
+            }
+            //$this->recalculate_total_buy( $sales );
+
+            $this->recalculate_total_debt( $id_sales );
+
+            die();
+
+            //$sale2 ? $insert_plus[] = 'AUMENTO a Ctas./Ctes., desde '.$request->percent_aumento_desde. ' hasta '.$request->percent_aumento_hasta.' aplicados con exito' : '';
+
+        }
+
+        $products = Product::all();
+        foreach ($products as $product) {
+            $product->price_purchase = $product->price_purchase + ($product->price_purchase * $request->percent_aumento / 100);
+            $product->price_sale = $product->price_sale + ($product->price_sale * $request->percent_aumento / 100);
+            $save1 = $product->save();
+        }
+
+        $save1 ? $insert_plus[] = 'Aumento a productos, aplicado con exito!' : '';
+
+        return response()->json([
+            'msg' => $insert_plus,
+        ]);
+
+
+      }
+
+
+      // # RECALCULAMOS EL TOTAL DE CADA COMPRA
+      function recalculate_total_buy($sales){
+
+
+            foreach ($sales as $sale) {
+
+                $sale_price = Sale::where('id',$sale->id)->where('type_sale_id', 2);
+
+                $price_new = DB::table('products')
+                    ->select('price_sale')
+                    ->where('id', $sale_price->product_id)
+                    ->first();
+
+                $sale_price->unit_price = $price_new->price_sale;
+                $sale_price->total_price = $price_new->price_sale * $sale_price->cuantity;
+                $sale_price->save();
+
+            }
+        }
+
+       function recalculate_total_debt($sales){
+
+            // # COnvertimos los ids en array
+            $ids_sales = (array)$sales;
+
+            // # COmo estan repetidos los unificamos y con array_values
+            // No conservamos sus viejos indices
+            $ids_sales_uniques = array_values(array_unique($ids_sales));
+
+
+
+            // Obtener todas las ventas con el mismo identificador de venta
+            for ($i=0; $i < count($ids_sales_uniques); $i++) {
+
+                $sum_price_total = DB::table('sales')->where('identificator_sale', $ids_sales_uniques[$i])->sum('total_price');
+
+                // # Updeteamo el nuevo valor del debt del cliente
+                DB::table('payments')->where('identificator_sale', $ids_sales_uniques[$i])->update(['debt' => $sum_price_total]);
+
+
+            }
+
+
+       }
+
+
+
+
+
+
+
+
+
 
 
 

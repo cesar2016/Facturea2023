@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Brand_categoryController;
 use App\Http\Controllers\Client_acountController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Proforma_C_Controller;
@@ -61,6 +62,9 @@ Route::post('/recive', [ReciveController::class, 'store'])->name('recive');
 Route::GET('/create_invoice_c', [Proforma_C_Controller::class, 'create_invoice_c'])->name('create_invoice_c');
 
 Route::get('/client_acount/{id}', [Client_acountController::class, 'index'])->name('client_acount');
+
+Route::get('/finance', [FinanceController::class, 'index'])->name('finance');
+
 
 
 

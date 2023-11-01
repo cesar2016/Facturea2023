@@ -16,17 +16,132 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" />
 
+    <style>
+        .switchBtn {
+            margin-bottom: 0;
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switchBtn input {display:none;}
+        .slide {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            padding: 8px;
+            color: #fff;
+        }
+        .slide:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 28px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+        input:checked + .slide {
+            background-color: #8CE196;
+            padding-left: 40px;
+        }
+        input:focus + .slide {
+            box-shadow: 0 0 1px #01aeed;
+        }
+        input:checked + .slide:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+            left: -20px;
+        }
+        .slide.round {
+            border-radius: 34px;
+        }
+        .slide.round:before {
+            border-radius: 50%;
+        }
+    </style>
 
 @stop
 
 @section('content_header')
-    <h1>Hola provideres </h1>
+    <h1>ADMINISTRACION DE PROVEEDORES Y AUMENTOS </h1>
 @stop
 
 @section('content')
     <a id="btn-new-provider" class="btn btn-app bg-primary">
         <i class="fas fa-truck"></i> Nuevo proveedor
     </a>
+
+    <a id="btn-new-aumentos" class="btn btn-app bg-info">
+        <i class="fas fa-plus"></i> Aplicar aumentos
+    </a>
+
+    <div id="view-new-aumentos">
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title"> <i class=" fa fa-plus"></i> <span> Aplicar aumentos a Productos - Ctas/Ctes. </span> </h3>
+            </div>
+
+            <form id="form-new-aumentos" name="form-new-aumentos" action="">
+                <div class="card-body">
+
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Aplicar aumento del <small> - Ingrese solo Numeros - </small></label>
+                        <div class="col-sm-2">
+                            <input type="text" name="percent_aumento" id="percent_aumento" class="form-control form-control-lg is-invalid" placeholder="Eje: 25%">
+                            <label id="error_porcent"></label>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="container">
+
+                        <div class="form-check form-switch mb-2">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">
+                                <h3 class="mb-3">
+                                -  Aplicar aumento a Ctas./Ctes. ?
+                              </h3>
+                            </label>
+
+                            <label class="switchBtn">
+                                <input type="checkbox" name="percent_aumento_check" id="percent_aumento_check">
+                                <div class="slide round"></div>
+                            </label>
+
+                        </div>
+
+
+
+                        <div class="form-group row alert alert-info">
+                            <label for="" class="col-form-label">DESDE</label>
+                            <div class="col-4">
+                                <input type="date" name="percent_aumento_desde" value="{{ date('Y-m-d') }}" id="percent_aumento_desde" class="form-control form-control-lg" disabled>
+                            </div>
+                            <label for="" class="col-form-label">HASTA</label>
+                            <div class="col-4">
+                                <input type="date" name="percent_aumento_hasta" value="{{ date('Y-m-d') }}" id="percent_aumento_hasta" class="form-control form-control-lg" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <button id="btn-form-new-aumentos" type="submit" class="btn btn-info">Agregar Aumentos</button>
+                    <button id="close-form-aumentos" class="btn btn-default">Cerrar</button>
+                </div>
+            </form>
+        </div>
+
+        <hr>
+    </div>
 
     <div id="view-new-provider">
         <div id="card-form" class="card card-primary ">
@@ -157,7 +272,10 @@
     <script src="{{ asset('my/js/providers.js') }}"></script>
 
     <script>
+
         $(document).ready(function() {
+
+
             //$('#providers').DataTable();
             $('#providers').DataTable({
                 "language": {
@@ -166,6 +284,12 @@
             });
 
         });
+
+
+
+
+
+
     </script>
 
 @stop

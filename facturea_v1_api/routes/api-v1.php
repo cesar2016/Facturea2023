@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\SaleController;
 use App\Http\Controllers\Api\TypeSaleController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CurrentAccountController;
+use App\Http\Controllers\FinanceController;
 use App\Models\BrandProduct;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Http\Request;
@@ -39,6 +40,7 @@ Route::get('/test', function(){
 
 // Ruta para recalcular las deudas
 Route::get('recalculating_debt/{identificator_sale}',[PaymentController::class, 'recalculating_debt']);
+
 
 
 // # REGISTER
@@ -78,6 +80,9 @@ Route::get('providers/{provider}',[ProviderController::class, 'show'])->name('ap
 Route::put('providers/{provider}',[ProviderController::class, 'update'])->name('api.v1.providers.update');
 Route::delete('providers/{provider}',[ProviderController::class, 'destroy'])->name('api.v1.providers.delete');
 
+// - Rutas para aumentos
+Route::post('providers_aumento',[ProviderController::class, 'aumento_update'])->name('api.v1.providers.aumento_update');
+
 
 // # PRODUCTS
 Route::get('products',[ProductController::class, 'index'])->name('api.v1.products.index');
@@ -108,13 +113,21 @@ Route::post('store_pay_account',[PaymentController::class, 'store_pay_account'])
 Route::get('last_pay',[PaymentController::class, 'last_pay'])->name('api.v1.payments.last_pay');
 
 
-
 // # TYPE SALES
 Route::get('typeSales',[TypeSaleController::class, 'index'])->name('api.v1.typeSales.index');
 Route::post('typeSales',[TypeSaleController::class, 'store'])->name('api.v1.typeSales.store');
 Route::get('typeSales/{type_sale}',[TypeSaleController::class, 'show'])->name('api.v1.typeSales.show');
 Route::put('typeSales/{type_sale}',[TypeSaleController::class, 'update'])->name('api.v1.typeSales.update');
 Route::delete('typeSales/{type_sale}',[TypeSaleController::class, 'destroy'])->name('api.v1.typeSales.delete');
+
+
+// # Finanzas
+Route::get('daily_cash',[FinanceController::class, 'daily_cash'])->name('api.v1.daily_cash');
+Route::post('frame_cash',[FinanceController::class, 'frame_cash'])->name('api.v1.frame_cash');
+
+//Route::get('finances/daily_cash',[FinanceController::class, 'daily_cash']);
+
+
 
 
 

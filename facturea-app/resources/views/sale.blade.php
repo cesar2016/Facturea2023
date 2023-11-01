@@ -56,15 +56,15 @@
                                 href="#custom-tabs-five-overlay" role="tab" aria-controls="custom-tabs-five-overlay"
                                 aria-selected="true">RECIBO</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- · SOLAPAS DESHABILITADAS HASTA QYUE SE FACTURE  --}}
+                        {{-- <li class="nav-item">
                             <a class="nav-link" id="factiraA" data-toggle="pill" href="#custom-tabs-five-overlay-dark"
-                                role="tab" aria-controls="custom-tabs-five-overlay-dark" aria-selected="false">FACTURA
-                                A</a>
+                                role="tab" aria-controls="custom-tabs-five-overlay-dark" aria-selected="false">FACTURA A</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="facturaB" data-toggle="pill" href="#custom-tabs-five-normal"
                                 role="tab" aria-controls="custom-tabs-five-normal" aria-selected="false">FACTURA B</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
 

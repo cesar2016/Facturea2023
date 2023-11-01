@@ -267,6 +267,11 @@ $(function () {
                 $('#form-update-sale').trigger("reset");
                 $('#capa-form-update').toggle(1000);
 
+                $('#buy').hide();
+                $('#buy').empty();
+
+                view_buy(data[0].identificator_sale)
+
                 view_debt(data[0].client_id)
 
             },
@@ -282,6 +287,9 @@ $(function () {
 
         }).done(function(){
             alert_add_success('venta modificada con exito!', 'Good...!')
+            $('#buy').show(1000);
+
+
             //location.reload();
 
         });

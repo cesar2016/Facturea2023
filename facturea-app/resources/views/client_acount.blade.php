@@ -181,7 +181,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-2">
                                     <label for="quantity">Cantidad</label>
-                                    <input type="number" class="form-control" id="cuantity" name="cuantity">
+                                    <input type="text" class="form-control" id="cuantity" name="cuantity">
                                   </div>
                                   <div class="form-group col-md-2">
                                     <label for="unit_price">Precio unitario</label>

@@ -318,6 +318,11 @@ return [
             'url'  => 'clients',
             'icon' => 'fas fa-fw fa-users',
         ],
+        [
+            'text' => 'Finanzas',
+            'url'  => 'finance',
+            'icon' => 'fas fa-calculator',
+        ],
 
         ['header' =>  'ADMIN PRODUCTOS'],
 

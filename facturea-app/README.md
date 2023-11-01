@@ -77,9 +77,22 @@ Mi Anotador:::
 
 15-8-> al eliminar un item no recaulcula el importe total (nuevo) de la compra (Listo)
 
-25-8-> Manejo de los aumentos desde la vista de proveedores:
-    - Crear formulario para aumentar todos los productos
+25-8-> Manejo de los aumentos desde la vista de proveedores: (Listo)
+    - Crear formulario para aumentar todos los productos -> aca quede, esta casi terminado 25.8
     - Aplicar o no a las ctas/ctes por fecha
-    
-    
 
+6-8 Ahora estos aumentos deben camboiar la suma del total de la compra (Listo)
+para ello qestoy implementanbdo esta funcion donde quede:
+// # RECALCULAMOS EL TOTAL DE CADA COMPRA
+      function recalculate_total_buy($identificator_sales){
+
+        echo print_r($identificator_sales);
+
+        
+      }   
+
+19-10 Al elegir rango de fecha como la funcion  ecalculate_total_buy($identi) para calcular los nuevos totatales debido  (Listo)
+a la actualizacion de precios, ahora tambien hay que calcular el total_debt (deuda del cliente) con esta funcion 
+recalculate_total_debt()
+    
+ 
